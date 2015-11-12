@@ -119,7 +119,7 @@ package body Syslog.Timestamps is
       if With_Frac then
          Frac :=
            ('.',
-            Digit (Natural (Sub_Second * 10)),
+            Digit (Natural (Float'Floor(Float(Sub_Second)*10.0))),
             Digit (Natural (Sub_Second * 100) mod 10),
             Digit (Natural (Sub_Second * 1000) mod 10),
             Digit (Natural (Sub_Second * 10000) mod 10),
