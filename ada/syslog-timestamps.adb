@@ -70,10 +70,10 @@ package body Syslog.Timestamps is
    end RFC_3164;
 
 
-   function RFC_5424 (With_Frac : Boolean := True) return String is
+   function RFC_5424 (Time_Stamp : Ada.Calendar.Time; With_Frac : Boolean := True) return String is
       use type Ada.Calendar.Time_Zones.Time_Offset;
 
-      Now : constant Ada.Calendar.Time := Ada.Calendar.Clock;
+      Now : constant Ada.Calendar.Time := Time_Stamp;
       Offset : constant Ada.Calendar.Time_Zones.Time_Offset
         := Ada.Calendar.Time_Zones.UTC_Time_Offset (Now);
 
@@ -120,11 +120,11 @@ package body Syslog.Timestamps is
          Frac :=
            ('.',
             Digit (Natural (Float'Floor(Float(Sub_Second)*10.0))),
-            Digit (Natural (Sub_Second * 100) mod 10),
-            Digit (Natural (Sub_Second * 1000) mod 10),
-            Digit (Natural (Sub_Second * 10000) mod 10),
-            Digit (Natural (Sub_Second * 100000) mod 10),
-            Digit (Natural (Sub_Second * 1000000) mod 10));
+            Digit (Natural (Float'Floor(Float(Sub_Second) * 100.0)) mod 10),
+            Digit (Natural (Float'Floor(Float(Sub_Second) * 1000.0)) mod 10),
+            Digit (Natural (Float'Floor(Float(Sub_Second) * 10000.0)) mod 10),
+            Digit (Natural (Float'Floor(Float(Sub_Second) * 100000.0)) mod 10),
+            Digit (Natural (Float'Floor(Float(Sub_Second) * 1000000.0)) mod 10));
       end if;
 
       if Offset = 0 then
@@ -158,6 +158,12 @@ package body Syslog.Timestamps is
             return Prefix & Time_Zone;
          end if;
       end if;
+   end RFC_5424;
+
+   function RFC_5424 (With_Frac : Boolean := True) return String is
+   begin
+      return RFC_5424(Time_Stamp => Ada.Calendar.Clock,
+                      With_Frac  => With_Frac);
    end RFC_5424;
 
 end Syslog.Timestamps;

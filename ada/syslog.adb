@@ -69,31 +69,35 @@ package body Syslog is
    procedure Log
      (Facility : in Facilities.Code;
       Severity : in Severities.Code;
-      Message : in String) is
+      Message : in String;
+      Timestamp : Ada.Calendar.Time := Ada.Calendar.Clock) is
    begin
-      Log (To_Priority (Facility, Severity), Message);
+      Log (To_Priority (Facility, Severity), Message, Timestamp);
    end Log;
 
 
    procedure Log
      (Severity : in Severities.Code;
-      Message : in String) is
+      Message : in String;
+      Timestamp : Ada.Calendar.Time := Ada.Calendar.Clock ) is
    begin
-      Log (To_Priority (Context.Default_Facility, Severity), Message);
+      Log (To_Priority (Context.Default_Facility, Severity), Message, Timestamp);
    end Log;
 
 
    procedure Log
-     (Facility : in Facilities.Code;
-      Message : in String) is
+     (Facility  : in Facilities.Code;
+      Message   : in String;
+      Timestamp : Ada.Calendar.Time := Ada.Calendar.Clock ) is
    begin
-      Log (To_Priority (Facility, Context.Default_Severity), Message);
+      Log (To_Priority (Facility, Context.Default_Severity), Message, Timestamp);
    end Log;
 
 
    procedure Log
      (Pri : in Priority;
-      Message : in String) is
+      Message : in String;
+      Timestamp : Ada.Calendar.Time := Ada.Calendar.Clock) is
    begin
       if Context.Transport = null then
          return;
@@ -127,7 +131,8 @@ package body Syslog is
                   Message => Message,
                   Hostname => Get (Context.Hostname),
                   App_Name => Get (Context.App_Name),
-                  Proc_ID => Get (Context.Proc_ID));
+                  Proc_ID => Get (Context.Proc_ID),
+                  Timestamp => Timestamp);
 
                Context.Transport (Packet (1 .. Last));
             end;
@@ -136,13 +141,14 @@ package body Syslog is
 
 
 
-   procedure Log (Message : in String) is
+   procedure Log (Message : in String; Timestamp : Ada.Calendar.Time := Ada.Calendar.Clock)  is
    begin
       Log
         (To_Priority
            (Context.Default_Facility,
             Context.Default_Severity),
-         Message);
+         Message,
+         Timestamp);
    end Log;
 
 
