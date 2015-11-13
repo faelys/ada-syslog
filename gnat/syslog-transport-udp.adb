@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------------
--- Copyright (c) 2014, Natacha Porté                                       --
+-- Copyright (c) 2014, Natacha Porté                                        --
 --                                                                          --
 -- Permission to use, copy, modify, and distribute this software for any    --
 -- purpose with or without fee is hereby granted, provided that the above   --
@@ -60,6 +60,7 @@ package body Syslog.Transport.UDP is
               + Ada.Streams.Stream_Element_Offset (I - Message'First))
               := Character'Pos (Message (I));
          end loop;
+
          GNAT.Sockets.Send_Socket (Socket, Data, Last);
          pragma Unreferenced (Last);
       end;

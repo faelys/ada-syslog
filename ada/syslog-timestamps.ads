@@ -1,4 +1,3 @@
-with Ada.Calendar;
 ------------------------------------------------------------------------------
 -- Copyright (c) 2014, Natacha Porté                                        --
 --                                                                          --
@@ -28,6 +27,5 @@ package Syslog.Timestamps is
    function RFC_3164 return String;
 
    function RFC_5424 (With_Frac : Boolean := True) return String;
-   function RFC_5424 (Time_Stamp : Ada.Calendar.Time; With_Frac : Boolean := True) return String;
 
 end Syslog.Timestamps;

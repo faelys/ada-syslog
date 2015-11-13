@@ -25,39 +25,10 @@ package body Syslog.RFC_5424 is
       Message : in String;
       Hostname : in String := "-";
       App_Name : in String := "-";
-      Proc_ID : in String  := "-";
-      Msg_ID : in String   := "-";
+      Proc_ID : in String := "-";
+      Msg_ID : in String := "-";
       With_Time_Frac : in Boolean := True)
    is
-      Timestamp : constant Ada.Calendar.Time := Ada.Calendar.Clock;
-   begin
-      Build_Message(Output    => Output,
-                    Last      => Last,
-                    Pri       => Pri,
-                    Message   => Message,
-                    Hostname  => Hostname,
-                    App_Name  => App_Name,
-                    Proc_ID   => Proc_ID,
-                    Msg_ID    => Msg_ID,
-                    Timestamp => Timestamp,
-                    With_Time_Frac => With_Time_Frac);
-   end Build_Message;
-
-   procedure Build_Message
-     (Output : out String;
-      Last : out Natural;
-      Pri : in Priority;
-      Message : in String;
-      Hostname : in String := "-";
-      App_Name : in String := "-";
-      Proc_ID : in String  := "-";
-      Msg_ID : in String   := "-";
-      Timestamp : Ada.Calendar.Time;
-      With_Time_Frac : Boolean := True)
-   is
-      RFC_5424_Timestamp : constant String
-        := Syslog.Timestamps.RFC_5424(Time_Stamp => Timestamp,
-                                      With_Frac  => With_Time_Frac);
    begin
       Last := Output'First - 1;
 
@@ -70,7 +41,7 @@ package body Syslog.RFC_5424 is
       end;
 
       Append (Output, Last, ">1 ");
-      Append (Output, Last, RFC_5424_Timestamp);
+      Append (Output, Last, Timestamps.RFC_5424 (With_Time_Frac));
       Append (Output, Last, " ");
       Append (Output, Last, Check_Nil (Hostname));
       Append (Output, Last, " ");
@@ -82,6 +53,5 @@ package body Syslog.RFC_5424 is
       Append (Output, Last, " ");
       Append (Output, Last, Message);
    end Build_Message;
-
 
 end Syslog.RFC_5424;

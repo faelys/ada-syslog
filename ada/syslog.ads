@@ -23,8 +23,7 @@
 -- However, since Transporter type is atomic, it should be safe to change   --
 -- it concurrently with Log calls.                                          --
 ------------------------------------------------------------------------------
-with Ada.Calendar;
-use Ada.Calendar;
+
 package Syslog is
 
    -- Support Types --
@@ -92,27 +91,22 @@ package Syslog is
    procedure Log
      (Facility : in Facilities.Code;
       Severity : in Severities.Code;
-      Message : in String;
-      Timestamp : Ada.Calendar.Time := Ada.Calendar.Clock);
+      Message : in String);
 
    procedure Log
      (Severity : in Severities.Code;
-      Message : in String;
-      Timestamp : Ada.Calendar.Time := Ada.Calendar.Clock);
+      Message : in String);
 
    procedure Log
      (Facility : in Facilities.Code;
-      Message : in String;
-      Timestamp : Ada.Calendar.Time := Ada.Calendar.Clock);
+      Message : in String);
 
    procedure Log
      (Pri : in Priority;
-      Message : in String;
-      Timestamp : Ada.Calendar.Time := Ada.Calendar.Clock);
+      Message : in String);
 
    procedure Log
-     (Message : in String;
-      Timestamp : Ada.Calendar.Time := Ada.Calendar.Clock);
+     (Message : in String);
 
 
    -- Setup Writing --

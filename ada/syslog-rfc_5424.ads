@@ -28,21 +28,8 @@ package Syslog.RFC_5424 is
       Message : in String;
       Hostname : in String := "-";
       App_Name : in String := "-";
-      Proc_ID : in String  := "-";
-      Msg_ID : in String   := "-";
+      Proc_ID : in String := "-";
+      Msg_ID : in String := "-";
       With_Time_Frac : in Boolean := True);
-
-   procedure Build_Message
-     (Output : out String;
-      Last : out Natural;
-      Pri : in Priority;
-      Message : in String;
-      Hostname : in String := "-";
-      App_Name : in String := "-";
-      Proc_ID : in String  := "-";
-      Msg_ID : in String   := "-";
-      Timestamp : Ada.Calendar.Time;
-      With_Time_Frac : Boolean := True);
-
 
 end Syslog.RFC_5424;
