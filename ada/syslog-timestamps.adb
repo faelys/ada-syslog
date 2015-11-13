@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------------
--- Copyright (c) 2014, Natacha Porté                                        --
+-- Copyright (c) 2014-2015, Natacha Porté                                   --
 --                                                                          --
 -- Permission to use, copy, modify, and distribute this software for any    --
 -- purpose with or without fee is hereby granted, provided that the above   --
@@ -117,14 +117,18 @@ package body Syslog.Timestamps is
          Digit (Second mod 10));
 
       if With_Frac then
-         Frac :=
-           ('.',
-            Digit (Natural (Sub_Second * 10)),
-            Digit (Natural (Sub_Second * 100) mod 10),
-            Digit (Natural (Sub_Second * 1000) mod 10),
-            Digit (Natural (Sub_Second * 10000) mod 10),
-            Digit (Natural (Sub_Second * 100000) mod 10),
-            Digit (Natural (Sub_Second * 1000000) mod 10));
+         if Sub_Second = 0.0 then
+            Frac := (1 => '.', others => '0');
+         else
+            Frac :=
+              ('.',
+               Digit (Natural (Sub_Second * 10 - 0.5)),
+               Digit (Natural (Sub_Second * 100 - 0.5) mod 10),
+               Digit (Natural (Sub_Second * 1000 - 0.5) mod 10),
+               Digit (Natural (Sub_Second * 10000 - 0.5) mod 10),
+               Digit (Natural (Sub_Second * 100000 - 0.5) mod 10),
+               Digit (Natural (Sub_Second * 1000000 - 0.5) mod 10));
+         end if;
       end if;
 
       if Offset = 0 then
